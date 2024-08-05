@@ -44,17 +44,23 @@ router.post('/', async (req, res) => {
 // update an idea
 router.put('/:id', async (req, res) => {
     try {
-        const updateIdea = await Idea.findByIdAndUpdate(
-            req.params.id,
-            {
-                $set: {
-                    text: req.body.text,
-                    tag: req.body.tag,
-                }
-            },
-            { new: true }
-        );
-        res.json({ success: true, result: updateIdea });
+        const idea = await Idea.findById(req.params.id);
+        // validate the username
+        if (idea.username === req.body.username) {
+            const updateIdea = await Idea.findByIdAndUpdate(
+                req.params.id,
+                {
+                    $set: {
+                        text: req.body.text,
+                        tag: req.body.tag,
+                    }
+                },
+                { new: true }
+            );
+            return res.json({ success: true, result: updateIdea });
+        };
+
+        res.status(403).json({ success: false, error: 'Invalid User'});
     } catch (error) {
         console.log(error);
         res.status(500).json({ success: false, error: 'failed to update idea'});
@@ -64,8 +70,14 @@ router.put('/:id', async (req, res) => {
 // delete an idea
 router.delete('/:id', async (req, res) => {
     try {
-        await Idea.findByIdAndDelete(req.params.id);
-        res.json({ success: true, data: {} });
+        const idea = await Idea.findById(req.params.id);
+        // validate the username
+        if (idea.username === req.body.username) {
+            await Idea.findByIdAndDelete(req.params.id);
+            return res.json({ success: true, data: {} });
+        };
+
+        res.status(403).json({ success: false, error: 'Invalid User'});
     } catch (error) {
         console.log(error);
         res.status(500).json({ success: false, error: 'failed to delete idea'});

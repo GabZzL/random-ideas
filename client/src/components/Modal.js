@@ -8,6 +8,7 @@ class Modal{
     addEventListeners() {
         this._modalBtn.addEventListener('click', this.open.bind(this));
         window.addEventListener('click', this.outsideClick.bind(this));
+        // listen for the custom event, to close the form
         document.addEventListener('closemodal', () => this.close());
     };
 

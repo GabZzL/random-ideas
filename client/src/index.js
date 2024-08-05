@@ -4,8 +4,12 @@ import Modal from './components/Modal.js'
 import IdeaForm from './components/IdeaForm.js';
 import IdeaList from './components/IdeaList.js';
 
-const modal = new Modal();
+// class to displlay the modal form
+new Modal();
+// start the form
 const ideaForm = new IdeaForm();
-const ideaList = new IdeaList()
+// start the idealist
+new IdeaList()
 
+// render the form
 ideaForm.render();
